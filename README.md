@@ -31,6 +31,9 @@ Feel free to contact <evancresswell@gmail.com> or <vipulp@niddk.nih.gov > regard
 - [Results](#Results)
 	- Result Drivers used to generate figures for papers.
 
+### Anaconda Environment Setup
+[Back to Top](#Table-of-Contents)
+
 #### PDB to MSA Mapping
 [Back to Top](#Table-of-Contents)
 
