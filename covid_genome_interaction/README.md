@@ -7,6 +7,19 @@
 * **09062020-Cov19gisaid--SeqIdDesc200-aligned-FastaCikti.fa** -- Full un-aligned fasta file
 	* downloaded Oct 20 20202 from https://www.epicov.org/epi3/entities/tmp/tmp_sd_2020_10_20_02_12_qigibl_4j510bafde3/sequences_2020-10-19_07-21.fasta.gz
 
+### Table of Contents
+- [Anaconda Environment Setup](#Anaconda-Environment-Setup)
+	- Setting up conda environment for ER and PYDCA simulations
+- [PDB to MSA Mapping](#PDB-to-MSA-Mapping)
+	- Given a PDB structure we find the best matching MSA to infer connections
+- [Expectation Reflection](#Expectation-Reflection)
+- [Other Methods](#Other-Methods)
+	- Introduction of interfacing with pydca (https://github.com/KIT-MBS/pydca)
+	- Presentation/Plotting of MF-DCA and PLM-DCA methods
+	- Comparison of methods (De
+- [Results](#Results)
+	- Result Drivers used to generate figures for papers.
+	
 #### Alignment Process
 [Back to Top](#Table-of-Contents)
 
