@@ -8,8 +8,6 @@
 	* downloaded Oct 20 20202 from https://www.epicov.org/epi3/entities/tmp/tmp_sd_2020_10_20_02_12_qigibl_4j510bafde3/sequences_2020-10-19_07-21.fasta.gz
 
 ### Table of Contents
-- [Anaconda Environment Setup](#Anaconda-Environment-Setup)
-	- Setting up conda environment for ER and PYDCA simulations
 - [PDB to MSA Mapping](#PDB-to-MSA-Mapping)
 	- Given a PDB structure we find the best matching MSA to infer connections
 - [Expectation Reflection](#Expectation-Reflection)
@@ -69,8 +67,7 @@ foo@bar:~$ singularity exec -B /path/to/er_covid19/biowulf,/path/to/er_covid19/c
 ``` console
 foo@bar:~$  singularity exec -B /path/to/er_covid19/biowulf/,/path/to/er_covid19/covid_proteins /path/to/er_covid19/LADER.simg python get_clades.py /path/to/er_covid19/
 ```
-### Anaconda Environment Setup
-[Back to Top](#Table-of-Contents)
+
 
 ### Expectiation Reflection
 [Back to Top](#Table-of-Contents)
