@@ -19,12 +19,10 @@ Feel free to contact <evancresswell@gmail.com> or <vipulp@niddk.nih.gov > regard
     - PYDCA Enviornment: PDYCA_requirements.txt
     - Plotting Environment: plotting_requirements.txt
 
-### Table of Contents
+### Repo Table of Contents
 - [Anaconda Environment Setup](#Anaconda-Environment-Setup)
 	- Setting up conda environment for ER and PYDCA simulations
-- [PDB to MSA Mapping](#PDB-to-MSA-Mapping)
-	- Given a PDB structure we find the best matching MSA to infer connections
-- [Tutorial Directories](#Tutorial Directories)
+- [Tutorial Directories](#Tutorial-Directories)
 	- Outline of tutorials for ER omic analysis
 
 ### Anaconda Environment Setup
