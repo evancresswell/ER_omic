@@ -1,0 +1,6 @@
+*.png
+*.pdf
+*.npy
+*.pkl
+*.ipynb_checkpoints
+*.swp
