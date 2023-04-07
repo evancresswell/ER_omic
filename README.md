@@ -7,10 +7,6 @@ Omic analysis using Expectation Reflection
 - [Tutorial Directories](#Tutorial-Directories)
 	- Outline of tutorials for ER omic analysis
 
-
-## Protein Structure Prediction with DCA-Expectation Reflection
-=======================
-
 This repository provides tutorial examples for using Expectation Reflection for omic analysis. In the different jupyter notebooks you can run the different steps and applications of ER in Omic analysis including (see description of notebooks for topic specific tutorials):
 * Data acuisition and preprocessing 
 * Parallel computation of Direct Information and position coevolution
