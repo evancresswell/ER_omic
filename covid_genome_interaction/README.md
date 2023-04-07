@@ -1,5 +1,5 @@
-## SARS CoV 2 Genome Analysis
-
+# SARS CoV 2 Genome Analysis
+## Clone repo from paper: https://github.com/nihcompmed/SARS-CoV-2-genome
 ##### Required Files
 * **09062020-Cov19gisaid--SeqIdDesc200-aligned-FastaCikti.fa** -- previously aligned fasta file (for testing)
 	* downloaded from http://www.dilekbalik.com/SARS-CoV-2_ODOTool/
