@@ -1,0 +1,3 @@
+#! /bin/bash
+# generate w_ER weighted random walk (LD-balanced) starting from group mean as starting 
+source /data/cresswellclayec/conda/etc/profile.d/conda.sh; conda activate DCA_ER; python run_family_LD_mutation.py 4 $SLURM_CPUS_PER_TASK

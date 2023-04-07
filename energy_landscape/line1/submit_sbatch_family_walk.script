@@ -1,0 +1,10 @@
+#!/bin/bash
+sbatch --mem=400g --time=1-00:00:00 --partition=largemem  --cpus-per-task=60 generate_fam1_walk.script 
+sbatch --mem=400g --time=1-00:00:00 --partition=largemem  --cpus-per-task=60 generate_fam2_walk.script 
+sbatch --mem=400g --time=1-00:00:00 --partition=largemem  --cpus-per-task=60 generate_fam3_walk.script 
+sbatch --mem=400g --time=1-00:00:00 --partition=largemem  --cpus-per-task=60 generate_fam4_walk.script 
+sbatch --mem=400g --time=1-00:00:00 --partition=largemem  --cpus-per-task=60 generate_fam5_walk.script 
+sbatch --mem=400g --time=1-00:00:00 --partition=largemem  --cpus-per-task=60 generate_fam6_walk.script 
+sbatch --mem=400g --time=1-00:00:00 --partition=largemem  --cpus-per-task=60 generate_fam6_walk.script 
+
+

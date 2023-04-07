@@ -159,14 +159,14 @@ def prob_mut_LD_balanced(i1i2, w, b, s_init, s_cons, ncpu=2):
 
     # Calculate local field for initial sequence
     # Caluculate Hi for every column of H, includeing bias.
-    resH = Parallel(n_jobs = 20-2)(delayed(col_H)
+    resH = Parallel(n_jobs = ncpu)(delayed(col_H)
         (i0, i1i2, w, b, s_init)
         for i0 in range(len(s_init)))
     H_init = resH
 
     # Calculate local field for consensus sequence
     # Caluculate Hi for every column of H, includeing bias.
-    resH = Parallel(n_jobs = 20-2)(delayed(col_H)
+    resH = Parallel(n_jobs = ncpu)(delayed(col_H)
         (i0, i1i2, w, b, s_cons)
         for i0 in range(len(s_cons)))
     H_cons = resH
