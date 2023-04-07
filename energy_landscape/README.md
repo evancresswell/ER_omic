@@ -11,3 +11,4 @@ This directory is dedicated to showing how Expectation Reflection can be used to
 
 * SARS CoV-2 Spike Protein
   * This group requires running batch and swarm scripts on biowulf.
+  * Repo which extracts and processes data: https://github.com/evancresswell/ER_SARS-CoV-2_Spike
