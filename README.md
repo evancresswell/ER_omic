@@ -33,7 +33,7 @@ This repository shows users how to use Expectation Reflection for omic analysis 
 - SARS-CoV2 Genome-Wide Interaction
 	- Outlines the process for large-scale alignment of SARS-CoV2 genomes sequences using Biowulf swarm simulations
 - ER Energy Landscape
-	- LINE1_landscape.ipynb -- Generates ER-defined energy landscapes for LINE1 evolution
+	- [LINE1_landscape.ipynb](https://github.com/evancresswell/ER_omic/blob/main/energy_landscape/line1/ER_energy_landscape_mutaion.ipynb) -- Generates ER-defined energy landscapes for LINE1 evolution
 		- analysis of pre-defined clusters
 		- good visualization of clusters in PCA space
 	- spike_landscape.ipynb -- Generates ER-defined energy landscapes for SARS-CoV2 spike protein
