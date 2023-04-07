@@ -7,5 +7,7 @@ This directory is dedicated to showing how Expectation Reflection can be used to
 * HIV-Envelope
   * The analysis on this group is incomplete.
   * This is the analysis for the OAR Innovation grant.
+  * Data obtained from https://www.hiv.lanl.gov/content/sequence/NEWALIGN/align.html ( see jupyter notebook for details on filters/processing)
+
 * SARS CoV-2 Spike Protein
   * This group requires running batch and swarm scripts on biowulf.
