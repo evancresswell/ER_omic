@@ -17,10 +17,10 @@ This repository provides tutorial examples for using Expectation Reflection for 
 Feel free to contact <evancresswell@gmail.com> or <vipulp@niddk.nih.gov > regarding questions on implementation and execution of repo
 
 #### Package Requirements
-- Anaconda/Miniconda - to run the proper enviornment for code. If using another python package manager see the following files for enviornment requirements 
-    - Expectation Reflection Environment: DCA_ER_requirments.txt
-    - PYDCA Enviornment: PDYCA_requirements.txt
-    - Plotting Environment: plotting_requirements.txt
+- Anaconda/Miniconda - to run the proper enviornment for code
+    - Expectation Reflection Environment: [utilities/DCA_ER.yml](https://github.com/evancresswell/ER_omic/blob/main/utilities/DCA_ER.yml)
+    - PYDCA Enviornment: [utilities/PDYCA.yml](https://github.com/evancresswell/ER_omic/blob/main/utilities/PYDCA.yml)
+    - Plotting Environment: [utilities/plotting.yml](https://github.com/evancresswell/ER_omic/blob/main/utilities/plotting.yml)
 
 ### Anaconda Environment Setup
 [Back to Top](#Repo-Table-of-Contents)
