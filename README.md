@@ -1,6 +1,13 @@
 # ER_omic
 Omic analysis using Expectation Reflection
 
+### Repo Table of Contents
+- [Anaconda Environment Setup](#Anaconda-Environment-Setup)
+	- Setting up conda environment for ER and PYDCA simulations
+- [Tutorial Directories](#Tutorial-Directories)
+	- Outline of tutorials for ER omic analysis
+
+
 ## Protein Structure Prediction with DCA-Expectation Reflection
 =======================
 
@@ -19,14 +26,8 @@ Feel free to contact <evancresswell@gmail.com> or <vipulp@niddk.nih.gov > regard
     - PYDCA Enviornment: PDYCA_requirements.txt
     - Plotting Environment: plotting_requirements.txt
 
-### Repo Table of Contents
-- [Anaconda Environment Setup](#Anaconda-Environment-Setup)
-	- Setting up conda environment for ER and PYDCA simulations
-- [Tutorial Directories](#Tutorial-Directories)
-	- Outline of tutorials for ER omic analysis
-
 ### Anaconda Environment Setup
-[Back to Top](#Table-of-Contents)
+[Back to Top](#Repo-Table-of-Contents)
 
 #### Tutorial Directories
 This repository shows users how to use Expectation Reflection for omic analysis of protein and genome sequences. The different applications are outlined in the 3 main directories.
@@ -51,5 +52,5 @@ This repository shows users how to use Expectation Reflection for omic analysis 
 	- [expectation_reflection.py](https://github.com/evancresswell/ER_omic/blob/main/utilities/expectation_reflection.py) -- Python module for calculatino the coevolutionary coupling matrix (w) and position bias (b) for a given group of processed sequences.
 	- [tools.py](https://github.com/evancresswell/ER_omic/blob/main/utilities/tools.py) -- Python Module with miscellaneous functions for processing, computation and visualization of ER analysis
 	
-[Back to Top](#Table-of-Contents)
+[Back to Top](#Repo-Table-of-Contents)
 
