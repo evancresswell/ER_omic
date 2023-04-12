@@ -202,7 +202,7 @@ def prob_mut_LD_balanced(i1i2, w, b, s_init, s_cons, ncpu=2):
     return prob_array
 
 
-def w_seq_LD_balanced(s_init, s_cons, i1i2, w_in, b_in, n_iter=1000,seed=42,ncpu=2):
+def w_seq_LD_balanced(s_init, s_cons, i1i2, w_in, b_in, s_fam_mean, n_iter=1000,seed=42,ncpu=2):
     random.seed(seed)
 
     if w_in.ndim > 2:
@@ -235,10 +235,15 @@ def w_seq_LD_balanced(s_init, s_cons, i1i2, w_in, b_in, n_iter=1000,seed=42,ncpu
         counter = 0
         while not mutated or counter > 1000:
             mut_pos_aa = np.random.choice(range(len(prob_array)), p=prob_mut)
-            if seq_walk[-1][mut_pos_aa] != 1:
+            # mutation has to change sequence and be a aa seen in family
+            if seq_walk[-1][mut_pos_aa] != 1 and s_fam_mean[mut_pos_aa] >0.:
                 mutated = True
             else:
                 counter += 1
+
+        if not mutated:
+            print("Unable to successfully mutate for iteration %d" % itr)
+            sys.exit(42)
 
         # find position mut_pos_aa is in
         found = False

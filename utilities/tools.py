@@ -918,3 +918,23 @@ def ER_perturb(seqs, w, v, pert_mag=1., pert_dir=0):
 #         new_seqs = np.add(seqs, pert_mag * dir_vec)
         new_seqs = seqs + pert_mag * dir_vec
     return new_seqs
+
+def cast_onehot_as_binary(sequence, i1i2):                                                             
+    """
+        Cast a onehot pseudo binary sequence (ie mean of group with not all 1, 0) as most likely sequence.        
+    """                                                                                                  
+    n_var = len(i1i2)                                                                            
+    temp_sequence = np.zeros(sequence.shape)                                                             
+                                                                                                         
+    for i0 in range(n_var):                                                                              
+        i1,i2 = i1i2[i0][0], i1i2[i0][1]                                                                 
+                                                                                                         
+        # get closest onehot position to 1                  
+        i = (np.abs(sequence[i1:i2] - 1.)).argmin()
+        sig_section = np.zeros(i2-i1)        
+        sig_section[i] = 1.  
+        sig_section = sig_section.reshape(len(sig_section),)                                             
+        temp_sequence[i1:i2] = sig_section    
+    return temp_sequence    
+
+

@@ -172,7 +172,11 @@ b_file = "%s/%s_b.npy" % (data_dir, lp_names[family_id])
 # want to use asymmetric w for mutating sequence
 w_ER = np.load(w_file)      
 w_ER_sym = np.load(w_file)                                                                               
-b = np.load(b_file)                                                                                                               
+b = np.load(b_file)                        
+
+# mean of family sequences
+# this sequence also contains information on which aa are expressed in family
+# the aa-position information for the family is used/assumed in w_seq_LD_balanced                                                                                        
 gp_mean = np.mean(s[family_indx[family_id]], axis=0)
 
 print(data_dir)
@@ -184,9 +188,9 @@ print('saving to sequence walk to %s' % sequence_walk_file)
 
 # depending on how many cores you have you may need to change n_jobs and ncpu...
 start_time = timeit.default_timer()                                                       
-w_seq_LD_balanced(gp_mean, gp_mean, i1i2, w_ER, b, n_iter=niter,seed=42, ncpu = 2)
+w_seq_LD_balanced(gp_mean, gp_mean, i1i2, w_ER, b, gp_mean, n_iter=niter,seed=42, ncpu = 2)
 res_walk = Parallel(n_jobs = int(n_cpu/2))(delayed(w_seq_LD_balanced)                                                   
-        (gp_mean, gp_mean, i1i2, w_ER, b, n_iter=niter,seed=i0, ncpu = 2)
+        (gp_mean, gp_mean, i1i2, w_ER, b, gp_mean,n_iter=niter,seed=i0, ncpu = 2)
         for i0 in range(nwalk)) 
 
 run_time = timeit.default_timer() - start_time   
