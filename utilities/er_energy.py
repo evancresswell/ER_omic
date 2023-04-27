@@ -1,6 +1,7 @@
 import numpy as np
 from joblib import Parallel, delayed
 import random
+from scipy.spatial.distance import hamming
 random.seed(42)  
 
 
@@ -268,4 +269,138 @@ def w_seq_LD_balanced(s_init, s_cons, i1i2, w_in, b_in, s_fam_mean, n_iter=1000,
         return seq_walk, directions
     else:
         return seq_walk       
- 
+
+
+def ham_dist_mut_set(seq, s_set, i1i2):
+    # assumes binary onehot sequences
+    # get the average hamming distance between a sequence set sequences for all suggested mutation
+    ham_dists = []
+    temp_seqs = []
+    mut_cols = []
+
+    for i0 in range(len(i1i2)):
+        i1,i2 = i1i2[i0][0], i1i2[i0][1]
+        for i, ii0 in enumerate(range(i1,i2)):
+            if seq[ii0] == 1.:
+                continue # we only want to compute distances for potential mutations 
+                         # (ie mutations that would change sequence)
+            temp_sequence = np.copy(seq)
+            sig_section = np.zeros(i2-i1)
+            sig_section[i] = 1.
+            sig_section = sig_section.reshape(len(sig_section),1)
+            temp_sequence[i1:i2] = sig_section.reshape((len(sig_section),))
+            assert len(temp_sequence) == len(s_set[0])
+            ham_dists.append(np.mean(np.array([hamming(temp_sequence, seq) for seq in s_set])))
+            temp_seqs.append(temp_sequence)
+            mut_cols.append(ii0)
+    return ham_dists, temp_seqs, mut_cols
+           
+
+
+def w_seq_dist(s_init, beta, i1i2, w_in, b_in, s_fam, n_iter=1000,seed=42,ncpu=2):
+    random.seed(seed)
+
+    s_fam_mean = np.mean(s_fam, axis=0)
+
+    # get average distance to mean sequence
+    mean_ham_dist = np.mean([hamming(s_fam_mean, seq) for seq in s_fam])
+
+    if w_in.ndim > 2:
+        if w_in.ndim-1 != b_in.ndim or w_in[0].shape[1] != b_in[0].shape[0]:
+            sys.exit(42)
+        print('alternating walk between %d w/bs' % len(w_in))
+        directions = []
+
+    else:
+        print('random walk using a cluster\'s w/b')
+        w = w_in
+        b = b_in
+
+    seq_walk = [s_init]
+    n_var = len(i1i2)
+    dist_to_mean = 0.
+    for itr in range(n_iter):
+
+        # randomly select 100 sequences to compare distance to suggested mutation
+        sample_seqs = s_fam[np.random.choice(range(len(s_fam)), min((100, len(s_fam))), replace=False)]
+
+        # get mean distance between sample sequences and all possible mutations
+        ham_dists, mut_seqs,mut_cols = ham_dist_mut_set(seq_walk[-1], sample_seqs, i1i2)
+
+        if w_in.ndim > 2:
+            indx = np.random.choice(range(len(w_in)))
+            w = w_in[indx]
+            b = b_in[indx]
+            directions.append(indx)
+
+        # Randomly choose sequence mutation (weighted for lowest energy)
+        prob_tot, prob_array = prob_mut( s_init, i1i2, w, b, ncpu=2)
+        prob_mutation = prob_array/np.sum(prob_array)
+        prob_mutation = prob_mutation.reshape(len(prob_mutation))
+        # delete columns of mutations that would not change the sequence
+        aa_columns = seq_walk[-1] == 1.
+        prob_mutation = prob_mutation[~aa_columns]
+        assert len(prob_mutation) == len(ham_dists) and len(mut_cols) == len(prob_mutation)  ## should have removed the same number of columns from mutation probabilty
+                                                                                             ## as the number of possible changes (length of ham dists which is only computed for 
+                                                                                             ## mutations that would change current sequence in walk)
+
+        # generate walk probability based decreasing energy (prob_mutation) scalled by increasing distance from group (ham_dists)
+        prob_temp = np.multiply(np.exp(-beta * (ham_dists / mean_ham_dist)),  prob_mutation) 
+        prob_walk = prob_temp/np.sum(prob_temp)
+        prob_mutation = prob_walk.reshape(len(prob_walk))
+        print(ham_dists[:20])
+        print(prob_mutation[:20])
+        print(np.exp(-beta * (ham_dists[:20]/mean_ham_dist)))
+
+        print(prob_walk.shape)
+
+	# generate a random list of suggested mutations
+        mut_pos_aa_suggested = np.random.choice(range(len(prob_mutation)),  p=prob_walk)
+        mut_pos_aa = mut_cols[mut_pos_aa_suggested]
+        #print('balanced distance value: ', ham_dists[mut_pos_aa_suggested] / mean_ham_dist)
+        #print('probability: ', prob_mutation[mut_pos_aa_suggested] )
+        #print('walk probability of selected mutations: ', prob_walk[mut_pos_aa_suggested])
+        
+        # find position mut_pos_aa is in
+        found = False
+        for i0 in range(n_var):
+            i1,i2 = i1i2[i0][0], i1i2[i0][1]
+            for i, ii0 in enumerate(range(i1,i2)):
+                if mut_pos_aa == ii0:
+                    found = True
+                    break
+            if found:
+                break
+
+        temp_sequence = np.copy(seq_walk[-1])
+        sig_section = np.zeros(i2-i1)
+        sig_section[i] = 1.
+        sig_section = sig_section.reshape(len(sig_section),1)
+        temp_sequence[i1:i2] = sig_section.reshape((len(sig_section),))
+        assert len(temp_sequence) == len(s_init)
+
+        seq_walk.append(temp_sequence)
+
+    if w_in.ndim > 2:
+        return seq_walk, directions
+    else:
+        return seq_walk       
+
+# prob_mut1 in Omicron Consensus notebook
+def prob_mut(seq, i1i2, w, b, ncpu=2):
+    
+    # Caluculate Hi for every column of H, includeing bias.
+    resH = Parallel(n_jobs = ncpu)(delayed(col_H)                                                   
+        (i0, i1i2, w, b, seq)
+        for i0 in range(len(seq))) 
+    H_array = resH
+    mut_probs = []
+    prob_tot = 0.
+    for i in range(len(seq)):
+        H_i = H_array[i]
+        mut_prob =  np.exp( H_i) / (2 * np.cosh(H_i))
+        prob_tot += mut_prob
+        mut_probs.append(mut_prob)
+        
+    return prob_tot, np.array(mut_probs)
+

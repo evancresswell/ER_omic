@@ -16,7 +16,6 @@ from joblib import Parallel, delayed
 import numpy as np
 import pickle
 
-from Bio import SeqIO
 
 #========================================================================================
 data_path = '/data/cresswellclayec/DCA_ER/covid_proteins/'
@@ -55,8 +54,15 @@ def translate_weird_nucleotide(nuc):
 		nucleotide = nuc
 	return nucleotide
 
-def translate_sequence(seq,indices,subject_index): 
+def translate_sequence(seq,indices=None,subject_index=0): 
 
+    if indices is None:
+        indices = np.array([i for i in len(seq)])
+
+    if '-' in seq:
+       tab_indx = seq=='-'
+       seq = seq[~tab_indx]
+       indices = indices[~tab_indx]
     protein =[]
     index_mapping = {}
     if len(seq)%3 == 0: 
@@ -64,19 +70,20 @@ def translate_sequence(seq,indices,subject_index):
         for i in range(0, len(seq), 3): 
             #print('i1 %d  i2 %d i3 %d'%(indices[i],indices[i+1],indices[i+2]))
             # add index mapping from gene to amino acid array
-            if subject_index ==indices[i] or subject_index == indices[i+1] or subject_index == indices[i+2]:
-                index_tuple = (i,i+1,i+2)
+            #if subject_index ==indices[i] or subject_index == indices[i+1] or subject_index == indices[i+2]:
+            #    index_tuple = (i,i+1,i+2)
             index_mapping[indices[i]] = amino_index
             index_mapping[indices[i+1]] = amino_index
             index_mapping[indices[i+2]] = amino_index
             codon = seq[i:i + 3] 
-            protein.append( table[codon] )
+            protein.append( table[''.join(codon).upper()] )
             amino_index += 1
-    return protein, index_mapping, index_tuple
+    return protein, index_mapping#, index_tuple
 
 # convert nucleotide sequence to amino acid sequences
 # default parameters are for SARS CoV-2 genome
 def convert_codon(subject_index=14407, subject_encoding_region='NSP12', gene_range=nsp12_range , aligned_file = root_dir+"covid_genome_full_aligned.fasta", ref_file= root_dir+"wuhan_ref.fasta"):
+	from Bio import SeqIO
 	with open(aligned_file,"r") as handle:
 
 
@@ -164,8 +171,9 @@ def convert_codon(subject_index=14407, subject_encoding_region='NSP12', gene_ran
 
 
 def get_aa_pair_counts(pos1,pos1_gene_range, pos2, pos2_gene_range, aligned_file = root_dir+"covid_genome_full_aligned.fasta", ref_file= root_dir+"wuhan_ref.fasta"):
-	with open(aligned_file,"r") as handle:
 
+	from Bio import SeqIO
+	with open(aligned_file,"r") as handle:
 		aa_pairs = []
 
 		for i,record in enumerate(SeqIO.parse(handle, "fasta")):
